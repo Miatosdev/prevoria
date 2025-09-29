@@ -1,0 +1,265 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Digital Banking Design System - Professional Fintech Theme */
+
+@layer base {
+  :root {
+    /* Background & Surface Colors */
+    --background: 240 10% 98%;
+    --surface: 0 0% 100%;
+    --surface-elevated: 0 0% 100%;
+    --foreground: 240 10% 9%;
+
+    /* Card System */
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 9%;
+    --card-border: 240 6% 90%;
+
+    /* Primary Banking Blue */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
+    --primary-light: 217 91% 95%;
+
+    /* Secondary Purple Accent */
+    --secondary: 262 52% 47%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 262 52% 95%;
+
+    /* Success Green */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --success-light: 142 71% 95%;
+
+    /* Warning Orange */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --warning-light: 38 92% 95%;
+
+    /* Error Red */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --destructive-light: 0 84% 95%;
+
+    /* Neutral System */
+    --muted: 240 6% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 240 6% 96%;
+    --accent-foreground: 240 10% 9%;
+    
+    /* Form Elements */
+    --border: 240 6% 90%;
+    --input: 240 6% 96%;
+    --input-border: 240 6% 85%;
+    --ring: 217 91% 60%;
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 9%;
+
+    /* Design System Variables */
+    --radius: 0.75rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(262 52% 47%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(240 6% 98%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(262 52% 47%) 70%, hsl(289 100% 62%) 100%);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode banking theme */
+    --background: 240 10% 4%;
+    --surface: 240 10% 6%;
+    --surface-elevated: 240 10% 8%;
+    --foreground: 240 5% 96%;
+
+    --card: 240 10% 6%;
+    --card-foreground: 240 5% 96%;
+    --card-border: 240 6% 15%;
+
+    --primary: 217 91% 65%;
+    --primary-foreground: 240 10% 4%;
+    --primary-hover: 217 91% 70%;
+    --primary-light: 217 91% 12%;
+
+    --secondary: 262 52% 52%;
+    --secondary-foreground: 240 10% 4%;
+    --secondary-light: 262 52% 12%;
+
+    --success: 142 71% 50%;
+    --success-foreground: 240 10% 4%;
+    --success-light: 142 71% 12%;
+
+    --warning: 38 92% 55%;
+    --warning-foreground: 240 10% 4%;
+    --warning-light: 38 92% 12%;
+
+    --destructive: 0 84% 65%;
+    --destructive-foreground: 240 10% 4%;
+    --destructive-light: 0 84% 12%;
+
+    --muted: 240 6% 10%;
+    --muted-foreground: 240 4% 65%;
+    --accent: 240 6% 10%;
+    --accent-foreground: 240 5% 96%;
+
+    --border: 240 6% 15%;
+    --input: 240 6% 10%;
+    --input-border: 240 6% 20%;
+    --ring: 217 91% 65%;
+
+    --popover: 240 10% 6%;
+    --popover-foreground: 240 5% 96%;
+
+    --sidebar-background: 240 10% 4%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 217 91% 65%;
+    --sidebar-primary-foreground: 240 10% 4%;
+    --sidebar-accent: 240 6% 10%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 6% 15%;
+    --sidebar-ring: 217 91% 65%;
+  }
+}
+
+@layer components {
+  /* Banking Card Components */
+  .banking-card {
+    @apply bg-card border border-card-border rounded-2xl p-6 shadow-lg;
+    background: var(--gradient-card);
+  }
+
+  .banking-card-elevated {
+    @apply banking-card shadow-xl;
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  /* Button Variants */
+  .btn-gradient {
+    background: var(--gradient-primary);
+    @apply text-white border-0 hover:opacity-90 transition-all duration-300;
+  }
+
+  .btn-hero {
+    background: var(--gradient-hero);
+    @apply text-white border-0 hover:opacity-90 transform hover:scale-105 transition-all duration-300 shadow-lg;
+  }
+
+  /* Balance Display */
+  .balance-text {
+    @apply text-4xl font-bold;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Transaction Status Indicators */
+  .status-success {
+    @apply bg-success/10 text-success border border-success/20 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-warning {
+    @apply bg-warning/10 text-warning border border-warning/20 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-error {
+    @apply bg-destructive/10 text-destructive border border-destructive/20 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  /* Animations */
+  .slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary-hover));
+  }
+}
