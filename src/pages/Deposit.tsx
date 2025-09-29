@@ -12,12 +12,17 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import axios from 'axios';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const Deposit: React.FC = () => {
   const [depositMethod, setDepositMethod] = useState('bank-transfer');
   const [depositAmount, setDepositAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { fetchUser } = useAuth();
+
+  const API_URL = "http://127.0.0.1:8000/api";
 
   const quickAmounts = [100, 500, 1000, 10000];
 
@@ -60,16 +65,34 @@ export const Deposit: React.FC = () => {
     }
 
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "Deposit Initiated",
-        description: `Your deposit of $${parseFloat(depositAmount).toLocaleString()} has been initiated`,
+
+    try {
+      const res = await axios.post(`${API_URL}/transactions`, {
+        type: "credit",
+        amount: parseFloat(depositAmount),
+        description: `Deposit via ${depositMethod}`,
+        merchant: depositMethod,
+        category: "deposit"
       });
-      console.log(`Deposit initiated: $${depositAmount} via ${depositMethod}`);
-    }, 2000);
+
+      toast({
+        title: "Deposit Successful",
+        description: `Your deposit of $${parseFloat(depositAmount).toLocaleString()} was successful.`,
+      });
+
+      // refresh balance
+      await fetchUser();
+
+      setDepositAmount('');
+    } catch (error: any) {
+      toast({
+        title: "Deposit Failed",
+        description: error.response?.data?.message || "Something went wrong",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

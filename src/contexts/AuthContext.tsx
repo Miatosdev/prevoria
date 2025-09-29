@@ -6,7 +6,7 @@ interface User {
   name: string;
   email: string;
   phone: string;
-  balance: number | string;
+  balance: number;
   account_number: string;
 }
 
@@ -18,6 +18,7 @@ interface AuthContextType {
   ) => Promise<boolean>;
   logout: () => void;
   updateUser: (userData: Partial<User>) => void;
+  fetchUser: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -25,9 +26,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };
 
@@ -51,8 +50,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const fetchUser = async () => {
     try {
       const res = await axios.get(`${API_URL}/me`);
-      setUser(res.data);
-      localStorage.setItem("bankingUser", JSON.stringify(res.data));
+      const freshUser = { ...res.data, balance: Number(res.data.balance) };
+      setUser(freshUser);
+      localStorage.setItem("bankingUser", JSON.stringify(freshUser));
     } catch (err) {
       console.error("Failed to fetch user:", err);
     }
@@ -63,14 +63,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await axios.post(`${API_URL}/login`, { email, password });
       const { token, user } = res.data;
 
-      setUser(user);
+      const normalizedUser = { ...user, balance: Number(user.balance) };
+
+      setUser(normalizedUser);
       setToken(token);
 
-      localStorage.setItem("bankingUser", JSON.stringify(user));
+      localStorage.setItem("bankingUser", JSON.stringify(normalizedUser));
       localStorage.setItem("authToken", token);
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
+      await fetchUser(); // get freshest user data from backend
       return true;
     } catch (error: any) {
       console.error("Login failed:", error.response?.data || error.message);
@@ -112,6 +115,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     register,
     logout,
     updateUser,
+    fetchUser,
     isAuthenticated: !!user,
   };
 

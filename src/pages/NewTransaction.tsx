@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, Send, User, Building, Repeat, Globe } from 'lucide-react';
+import { ArrowLeft, Send, User, Building, Repeat, Globe, RefreshCw, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import axios from 'axios';
 
 export const NewTransaction: React.FC = () => {
   const navigate = useNavigate();
+  const { fetchUser } = useAuth();
   const { toast } = useToast();
+
   const [transactionType, setTransactionType] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
@@ -24,20 +28,47 @@ export const NewTransaction: React.FC = () => {
     routingNumber: ''
   });
 
+  const API_URL = "http://127.0.0.1:8000/api";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.amount) return;
+
     setLoading(true);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      const res = await axios.post(`${API_URL}/transactions`, {
+        type: "debit",
+        amount: parseFloat(formData.amount),
+        description: formData.description || transactionType.replace('-', ' '),
+        merchant: formData.recipient,
+        category: formData.category || "transfer"
+      });
 
-    toast({
-      title: "Transaction Successful",
-      description: `Your ${transactionType.replace('-', ' ')} has been processed successfully.`,
-    });
+      toast({
+        title: "Transaction Successful",
+        description: `Your ${transactionType.replace('-', ' ')} has been processed.`,
+      });
 
-    setLoading(false);
-    navigate('/dashboard');
+      setFormData({
+        recipient: '',
+        amount: '',
+        description: '',
+        category: '',
+        account_number: '',
+        routingNumber: ''
+      });
+      await fetchUser();
+      navigate('/dashboard');
+    } catch (error: any) {
+      toast({
+        title: "Transaction Failed",
+        description: error.response?.data?.message || "Could not complete the transaction.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const transactionTypes = [
@@ -190,7 +221,17 @@ export const NewTransaction: React.FC = () => {
                   className="btn-gradient" 
                   disabled={loading}
                 >
-                  {loading ? 'Processing...' : 'Send Transaction'}
+                  {loading ? (
+                    <>
+                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      Send Transaction
+                    </>
+                  )}
                 </Button>
               </div>
             </form>
