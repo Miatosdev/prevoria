@@ -50,6 +50,15 @@ class User extends Authenticatable
             $this->attributes['password'] = Hash::make($value);
         }
     }
+public function beneficiaries()
+{
+    return $this->hasMany(\App\Models\Beneficiary::class);
+}
+
+public function accounts()
+{
+    return $this->hasMany(Account::class);
+}
 
     /**
      * Auto-generate account number when creating a new user

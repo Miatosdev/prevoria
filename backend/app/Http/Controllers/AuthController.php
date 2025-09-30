@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Register a new user
-     */
+    // Register new user
     public function register(Request $request)
     {
         $validated = $request->validate([
@@ -21,12 +19,14 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        // Hash password, set default balance & account_number
-        $validated['password'] = bcrypt($validated['password']);
-        $validated['balance'] = 0;
-        $validated['account_number'] = rand(1000000000, 9999999999);
-
-        $user = User::create($validated);
+        $user = User::create([
+            'name'           => $validated['name'],
+            'email'          => $validated['email'],
+            'phone'          => $validated['phone'],
+            'password'       => Hash::make($validated['password']),
+            'balance'        => 0.00, // default balance
+            'account_number' => 'ACCT-' . rand(10000000, 99999999),
+        ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -36,23 +36,22 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Login existing user
-     */
+    // Login user
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email'    => 'required|string|email',
+        $request->validate([
+            'email'    => 'required|email',
             'password' => 'required|string',
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'email' => ['Invalid credentials provided.'],
             ]);
         }
 
-        $user = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -61,21 +60,19 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Logout (revoke current token)
-     */
+    // Get logged-in user
+    public function me(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
+    // Logout
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logged out successfully']);
-    }
-
-    /**
-     * Get authenticated user
-     */
-    public function me(Request $request)
-    {
-        return response()->json($request->user());
+        return response()->json([
+            'message' => 'Logged out successfully',
+        ]);
     }
 }

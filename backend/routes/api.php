@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\BeneficiaryController;
+use App\Http\Controllers\AccountController;
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/transactions', [TransactionController::class, 'index']);
-    Route::post('/fund-wallet', [TransactionController::class, 'fundWallet']);
-    Route::post('/send-money', [TransactionController::class, 'sendMoney']);
-});
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -19,4 +17,23 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::post('/transactions', [TransactionController::class, 'store']);
+    Route::get('/transactions/{id}', [TransactionController::class, 'show']);
+    Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
+});
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('beneficiaries', BeneficiaryController::class);
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+     Route::put('/accounts/{id}/primary', [AccountController::class, 'setPrimary']); 
 });
