@@ -1,103 +1,72 @@
-# Everstone Finance - Digital Banking Platform
-
+Everstone Finance - Digital Banking Platform
 A modern, secure digital banking platform built with React, TypeScript, and Supabase.
 
-## Features
-
-- **User Authentication**: Secure signup and login with email/password
-- **Account Management**: View account details, balance, and profile management
-- **Transaction History**: Complete transaction tracking and history
-- **Virtual Cards**: Manage virtual debit/credit cards
-- **Loans**: Loan applications and history management
-- **Transfers**: Local and international money transfers
-- **Tax Services**: Tax refund processing
-- **Bill Reminders**: Automated bill reminder system
-- **Investment Portfolio**: Portfolio tracking and insights
-- **Credit Score**: Credit score monitoring
-- **Responsive Design**: Mobile-first, responsive across all devices
-
-## Tech Stack
-
-- **Frontend**: React 18, TypeScript, Vite
-- **UI Framework**: Tailwind CSS, shadcn/ui
-- **Backend**: Supabase (PostgreSQL, Auth, Storage)
-- **State Management**: React Context API
-- **Routing**: React Router DOM
-- **Charts**: Recharts
-- **Icons**: Lucide React
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ 
-- npm or yarn
-- Supabase account
-
-### Installation
-
-1. Clone the repository:
-```bash
+Features
+User Authentication: Secure signup and login with email/password
+Account Management: View account details, balance, and profile management
+Transaction History: Complete transaction tracking and history
+Virtual Cards: Manage virtual debit/credit cards
+Loans: Loan applications and history management
+Transfers: Local and international money transfers
+Tax Services: Tax refund processing
+Bill Reminders: Automated bill reminder system
+Investment Portfolio: Portfolio tracking and insights
+Credit Score: Credit score monitoring
+Responsive Design: Mobile-first, responsive across all devices
+Tech Stack
+Frontend: React 18, TypeScript, Vite
+UI Framework: Tailwind CSS, shadcn/ui
+Backend: Supabase (PostgreSQL, Auth, Storage)
+State Management: React Context API
+Routing: React Router DOM
+Charts: Recharts
+Icons: Lucide React
+Getting Started
+Prerequisites
+Node.js 18+
+npm or yarn
+Supabase account
+Installation
+Clone the repository:
 git clone <your-repo-url>
 cd everstone-finance
-```
-
-2. Install dependencies:
-```bash
+Install dependencies:
 npm install
-```
-
-3. Set up environment variables:
-```bash
+Set up environment variables:
 cp .env.example .env
-```
-Edit `.env` with your Supabase credentials.
+Edit .env with your Supabase credentials.
 
-4. Start the development server:
-```bash
+Start the development server:
 npm run dev
-```
+Environment Variables
+Create a .env file in the root directory:
 
-## Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-## Database Setup
-
+Database Setup
 Run the provided SQL migrations in your Supabase dashboard to set up:
-- User profiles table
-- Transactions table
-- Virtual cards table
-- Loans table
-- Row Level Security policies
 
-See `docs/database-setup.md` for detailed instructions.
+User profiles table
+Transactions table
+Virtual cards table
+Loans table
+Row Level Security policies
+See docs/database-setup.md for detailed instructions.
 
-## Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy
-
-### Other Platforms
-
+Deployment
+Vercel (Recommended)
+Push your code to GitHub
+Connect your repository to Vercel
+Add environment variables in Vercel dashboard
+Deploy
+Other Platforms
 This app can be deployed to any static hosting platform:
-- Netlify
-- AWS S3 + CloudFront
-- Firebase Hosting
-- GitHub Pages
 
-## Project Structure
-
-```
+Netlify
+AWS S3 + CloudFront
+Firebase Hosting
+GitHub Pages
+Project Structure
 src/
 ├── components/         # Reusable UI components
 ├── contexts/          # React Context providers
@@ -106,27 +75,19 @@ src/
 ├── lib/              # Utility functions
 ├── pages/            # Page components
 └── types/            # TypeScript type definitions
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## Security
-
-- All data is secured with Supabase Row Level Security (RLS)
-- Authentication handled by Supabase Auth
-- Input validation on all forms
-- HTTPS enforced in production
-
-## License
-
+Contributing
+Fork the repository
+Create a feature branch
+Make your changes
+Add tests if applicable
+Submit a pull request
+Security
+All data is secured with Supabase Row Level Security (RLS)
+Authentication handled by Supabase Auth
+Input validation on all forms
+HTTPS enforced in production
+License
 This project is licensed under the MIT License.
 
-## Support
-
+Support
 For support, email support@everstonefinance.com or create an issue on GitHub.
